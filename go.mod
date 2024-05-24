@@ -1,4 +1,4 @@
-module gocore
+module github.com/jsturtevant/gocore
 
 go 1.21.3
 
