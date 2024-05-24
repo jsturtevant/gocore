@@ -90,6 +90,7 @@ type PROCESSOR_GROUP_INFO struct {
 var (
 	modkernel32                          = syscall.NewLazyDLL("kernel32.dll")
 	procGetLogicalProcessorInformationEx = modkernel32.NewProc("GetLogicalProcessorInformationEx")
+	getNumaAvailableMemoryNodeEx         = modkernel32.NewProc("GetNumaAvailableMemoryNodeEx")
 )
 
 func main() {
@@ -231,6 +232,16 @@ func processorInfo(relationShip RelationType) {
 				fmt.Printf("mask %064b\n", groupMasks[i].Mask)
 				PrintMask(groupMasks[i].Mask)
 			}
+
+			availableBytes := uint64(0)
+			r1, _, err := getNumaAvailableMemoryNodeEx.Call(uintptr(numaNodeRelationship.NodeNumber), uintptr(unsafe.Pointer(&availableBytes)))
+			if r1 == 0 {
+				fmt.Println("Call to GetNumaAvailableMemoryNodeEx failed:", err)
+				os.Exit(2)
+			}
+			fmt.Printf("Available memory: %d bytes\n", availableBytes)
+			fmt.Printf("Available memory: %d MB\n", availableBytes/(1024*1024))
+			fmt.Printf("Available memory: %.2f GB\n", float64(availableBytes)/(1024*1024*1024))
 
 			println()
 
