@@ -204,6 +204,7 @@ func processorInfo(relationShip RelationType) {
 			processorCount := 0
 			for i := 0; i < int(processorRelationship.GroupCount); i++ {
 				fmt.Printf("Core %d(#%d)\n", numOfcores, groupMasks[i].Mask)
+				fmt.Printf("mask %064b\n", groupMasks[i].Mask)
 				fmt.Printf("Group: %d\n", groupMasks[i].Group)
 				processorCount = PrintMask(groupMasks[i].Mask)
 			}
@@ -227,6 +228,7 @@ func processorInfo(relationShip RelationType) {
 			}
 
 			for i := 0; i < int(numaNodeRelationship.GroupCount); i++ {
+				fmt.Printf("mask %064b\n", groupMasks[i].Mask)
 				PrintMask(groupMasks[i].Mask)
 			}
 
@@ -253,7 +255,7 @@ func processorInfo(relationShip RelationType) {
 				fmt.Printf("Group %d\n", i)
 				fmt.Printf("Max Processors: %d\n", groupInfo[i].MaximumProcessorCount)
 				fmt.Printf("Active Processors: %d\n", groupInfo[i].ActiveProcessorCount)
-				fmt.Printf("Active Processor Mask: %d\n", groupInfo[i].ActiveProcessorMask)
+				fmt.Printf("Active Processor Mask: %064b\n", groupInfo[i].ActiveProcessorMask)
 				PrintMask(groupInfo[i].ActiveProcessorMask)
 				println()
 			}
